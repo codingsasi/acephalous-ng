@@ -1,0 +1,25 @@
+<div id="articlesGrid">
+  <mat-grid-list [cols]="cols" [rowHeight]="rowHeight" gutterSize="25px">
+    <mat-grid-tile *ngFor="let article of articles">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{ article.title }}</mat-card-title>
+          <mat-card-subtitle>By {{ article.user }}, on {{ article.created }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="{{ article.image }}" alt="{{ article.title }}">
+        <div class="card-bottom">
+          <mat-card-content>
+            <p>
+              {{ article.summary }} ...
+            </p>
+          </mat-card-content>
+          <mat-card-footer>
+            <button mat-button color="primary" [routerLink]="">
+              Read More
+            </button>
+          </mat-card-footer>
+        </div>
+      </mat-card>    
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

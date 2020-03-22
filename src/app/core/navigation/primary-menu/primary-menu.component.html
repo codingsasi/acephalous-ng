@@ -1,0 +1,52 @@
+
+<div id="main-navigation">
+  <mat-toolbar class="menu-bar mat-elevation-z1">
+    <div fxShow="true" fxHide.gt-sm="true">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <button mat-button class="companyName" routerLink="/">
+      <!-- Need to get site name and slogan and other details from API.
+      /api/site-info -->
+      <strong>ACEPHALOUS</strong>
+    </button>
+    <div fxShow="true" fxHide.lt-md="true">
+      <ng-container *ngFor="let item of menuArray">
+        <!-- Handle main menu items here -->
+        <ng-container *ngIf="item.below">
+          <button mat-button [matMenuTriggerFor]="menu.buildMenu">
+            {{item.title}}
+          </button>
+          <app-menu #menu [items]="item.below"></app-menu>
+        </ng-container>
+        <!-- Leaf sub menu items here -->
+        <ng-container *ngIf="!item.below">
+          <button mat-button color="primary" [routerLink]="item.link">
+            {{item.title}}
+          </button>
+        </ng-container>
+      </ng-container>
+    </div>
+  </mat-toolbar>
+    <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true" style="position: absolute;">
+      <div fxLayout="column">
+        <ng-container *ngFor="let item of menuArray">
+          <!-- Handle main menu items here -->
+          <ng-container *ngIf="item.below">
+            <button mat-button [matMenuTriggerFor]="menu.buildMenu">
+              {{item.title}}
+            </button>
+            <app-menu #menu [items]="item.below"></app-menu>
+          </ng-container>
+          <!-- Leaf sub menu items here -->
+          <ng-container *ngIf="!item.below">
+            <button mat-button color="primary" [routerLink]="item.link">
+              {{item.title}}
+            </button>
+          </ng-container>
+        </ng-container>
+      </div>
+    </mat-sidenav>
+</div>
+<!-- <router-outlet></router-outlet> -->
