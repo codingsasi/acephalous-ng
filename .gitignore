@@ -15,7 +15,6 @@ typings
 src/environments/environment.prod.ts
 
 # compiled output
-dist
 tmp
 out-tsc
 # Only exists if Bazel was run
