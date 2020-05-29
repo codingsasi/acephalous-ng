@@ -19,19 +19,19 @@ export class ArticlesGridComponent implements OnInit, OnDestroy {
     this.watcher = mediaObserver.media$.subscribe((change: MediaChange) => {
       if ( change.mqAlias === 'xs') {
         this.cols = 1;
-        this.rowHeight = "620px";
+        this.rowHeight = '620px';
       }
-      if (change.mqAlias == 'sm' || change.mqAlias == 'md') {
+      if (change.mqAlias === 'sm' || change.mqAlias === 'md') {
         this.cols = 2;
-        this.rowHeight = "650px";
+        this.rowHeight = '650px';
       }
-      if (change.mqAlias == 'lg') {
+      if (change.mqAlias === 'lg') {
         this.cols = 3;
-        this.rowHeight = "600px";
+        this.rowHeight = '600px';
       }
-      if (change.mqAlias == 'xl') {
+      if (change.mqAlias === 'xl') {
         this.cols = 4;
-        this.rowHeight = "550px";
+        this.rowHeight = '550px';
       }
     });
   }
@@ -51,24 +51,25 @@ export class ArticlesGridComponent implements OnInit, OnDestroy {
 
   buildArticlesObject(articles) {
     articles = articles.data;
-    let articlesArray: Array<any> = [];
+    const articlesArray: Array<any> = [];
     articles.forEach(article => {
       articlesArray.push({
-        'id': article.id,
-        'type': article.type,
-        'title': article.attributes.title,
-        'summary': article.attributes.body.summary.substr(0, 250),
-        'created': article.attributes.created,
-        'image': '',
-        'tags': [],
-        'user': '',
+        id: article.id,
+        type: article.type,
+        title: (article.attributes.title.length > 45 ) ? article.attributes.title.substr(0, 45) + ' ...' : article.attributes.title,
+        summary: article.attributes.body.summary.substr(0, 250),
+        created: article.attributes.created,
+        image: '',
+        tags: [],
+        user: '',
       });
     });
+    console.log(articlesArray);
     return articlesArray;
   }
 
   buildImageUrls() {
-    let articles = this.articles;
+    const articles = this.articles;
     articles.forEach((article, i) => {
       this.resolveService.getImage(article.id, article.type).subscribe(
         image => {
@@ -79,16 +80,16 @@ export class ArticlesGridComponent implements OnInit, OnDestroy {
   }
 
   buildTagUrls() {
-    let articles = this.articles;
+    const articles = this.articles;
     articles.forEach((article, i) => {
       this.resolveService.getTags(article.id, article.type).subscribe(
         tags => {
           tags = tags.data;
-          let tagsArray: Array<any> = [];
+          const tagsArray: Array<any> = [];
           tags.forEach(tag => {
             tagsArray.push({
-              'name': tag.attributes.name,
-              'link': tag.attributes.path.alias,
+              name: tag.attributes.name,
+              link: tag.attributes.path.alias,
             });
           });
           this.articles[i].tags = tagsArray;
@@ -98,7 +99,7 @@ export class ArticlesGridComponent implements OnInit, OnDestroy {
   }
 
   buildUserUrl() {
-    let articles = this.articles;
+    const articles = this.articles;
     articles.forEach((article, i) => {
       this.resolveService.getUser(article.id, article.type).subscribe(
         user => {

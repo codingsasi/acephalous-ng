@@ -8,13 +8,15 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared.module';
 import { ArticlesGridComponent } from './core/content/articles-grid/articles-grid.component';
 import { ArticlesListComponent } from './core/content/articles-list/articles-list.component';
+import {HomePageComponent} from './core/content/home-page/home-page.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ArticlesGridComponent,
-    ArticlesListComponent
+    ArticlesListComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,

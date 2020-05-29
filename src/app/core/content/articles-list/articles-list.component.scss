@@ -1,31 +1,28 @@
-#articlesList {
-  mat-grid-tile {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    mat-card {
-      box-shadow: none;
-      mat-card-content {
-        margin: 0;
-        padding: .8em;
-        img {
+ul {
+  article {
+    padding: 2rem;
+  }
+  list-style: none;
+  div {
+    .mat-card-title {
+      display: block;
+    }
+    &.card-body-content {
+      padding-top: 1rem;
+      display: flex;
+      img {
+        &.card-image {
           width: 30%;
           float: left;
-          margin: 0;
         }
-        .article-details {
-          width: 70%;
+      }
+      div {
+        &.article-details {
+          width: 65%;
           float: left;
-          padding: 0 2em;
-          @media only screen and (max-width: 576px) {
-            height: 100px;
-            overflow: hidden;
-          }
-          @media only screen and (max-width: 992px) {
-            height: 150px;
-            overflow: hidden;
-          }
+          padding-left: 2rem;
         }
       }
     }
   }
 }
-  
