@@ -11,22 +11,22 @@ import { MediaChange, MediaObserver } from '@angular/flex-layout';
 })
 export class ArticlesListComponent implements OnInit, OnDestroy {
   public articles: any[];
-  public rowHeight: string = "600px"; // To set rowHeight for responsive displays
+  public rowHeight = '600px'; // To set rowHeight for responsive displays
   watcher: Subscription;
 
   constructor(private resolveService: ResolveService, private mediaObserver: MediaObserver) {
     this.watcher = mediaObserver.media$.subscribe((change: MediaChange) => {
-      if ( change.mqAlias == 'xs') {
-        this.rowHeight = "350px";
+      if ( change.mqAlias === 'xs') {
+        this.rowHeight = '350px';
       }
-      if (change.mqAlias == 'sm' || change.mqAlias == 'md') {
-        this.rowHeight = "400px";
+      if (change.mqAlias === 'sm' || change.mqAlias === 'md') {
+        this.rowHeight = '400px';
       }
-      if (change.mqAlias == 'lg') {
-        this.rowHeight = "400px";
+      if (change.mqAlias === 'lg') {
+        this.rowHeight = '400px';
       }
-      if (change.mqAlias == 'xl') {
-        this.rowHeight = "450px";
+      if (change.mqAlias === 'xl') {
+        this.rowHeight = '450px';
       }
     });
   }
@@ -45,24 +45,26 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
 
   buildArticlesObject(articles) {
     articles = articles.data;
-    let articlesArray: Array<any> = [];
+    const articlesArray: Array<any> = [];
     articles.forEach(article => {
       articlesArray.push({
-        'id': article.id,
-        'type': article.type,
-        'title': article.attributes.title,
-        'summary': article.attributes.body.summary,
-        'created': article.attributes.created,
-        'image': '',
-        'tags': [],
-        'user': '',
+        id: article.id,
+        type: article.type,
+        title: article.attributes.title,
+        summary: article.attributes.body.summary,
+        created: article.attributes.created,
+        image: '',
+        tags: [],
+        user: '',
+        path: (article.attributes.path.alias.length === 0) ? 'node/' + article.attributes.drupal_internal__nid
+          : article.attributes.path.alias,
       });
     });
     return articlesArray;
   }
 
   buildImageUrls() {
-    let articles = this.articles;
+    const articles = this.articles;
     articles.forEach((article, i) => {
       this.resolveService.getImage(article.id, article.type).subscribe(
         image => {
@@ -73,16 +75,16 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
   }
 
   buildTagUrls() {
-    let articles = this.articles;
+    const articles = this.articles;
     articles.forEach((article, i) => {
       this.resolveService.getTags(article.id, article.type).subscribe(
         tags => {
           tags = tags.data;
-          let tagsArray: Array<any> = [];
+          const tagsArray: Array<any> = [];
           tags.forEach(tag => {
             tagsArray.push({
-              'name': tag.attributes.name,
-              'link': tag.attributes.path.alias,
+              name: tag.attributes.name,
+              link: tag.attributes.path.alias,
             });
           });
           this.articles[i].tags = tagsArray;
@@ -92,7 +94,7 @@ export class ArticlesListComponent implements OnInit, OnDestroy {
   }
 
   buildUserUrl() {
-    let articles = this.articles;
+    const articles = this.articles;
     articles.forEach((article, i) => {
       this.resolveService.getUser(article.id, article.type).subscribe(
         user => {

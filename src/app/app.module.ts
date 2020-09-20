@@ -8,7 +8,8 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared.module';
 import { ArticlesGridComponent } from './core/content/articles-grid/articles-grid.component';
 import { ArticlesListComponent } from './core/content/articles-list/articles-list.component';
-import {HomePageComponent} from './core/content/home-page/home-page.component';
+import {FrontPageComponent} from './core/content/front-page/front-page.component';
+import { RoutingComponent } from './routing/routing.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {HomePageComponent} from './core/content/home-page/home-page.component';
     AppComponent,
     ArticlesGridComponent,
     ArticlesListComponent,
-    HomePageComponent
+    FrontPageComponent,
+    RoutingComponent
   ],
   imports: [
     BrowserModule,

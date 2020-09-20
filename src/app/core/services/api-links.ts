@@ -3,5 +3,6 @@ export enum API_PATH {
   MAIN_MENU = '/api/menu_items/main',
   ARTICLES = '/api/node/article',
   PAGES = '/api/node/page',
-  SITE_INFO = '/api/site-info'
+  SITE_INFO = '/api/site-info',
+  ROUTE_CHECK = '/router/translate-path',
 }

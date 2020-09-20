@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ArticlesGridComponent } from './core/content/articles-grid/articles-grid.component';
-import { ArticlesListComponent } from './core/content/articles-list/articles-list.component';
-import { HomePageComponent } from './core/content/home-page/home-page.component';
+import {Routes, RouterModule, Router} from '@angular/router';
+import {RoutingComponent} from './routing/routing.component';
+import {ArticlesListComponent} from './core/content/articles-list/articles-list.component';
 
 const routes: Routes = [
-  { path: 'articles/grid', component: ArticlesGridComponent},
-  { path: 'articles/list', component: ArticlesListComponent},
-  { path: '**', redirectTo: '/' },
-  { path: '', component: HomePageComponent}
+  { path: 'node', component: ArticlesListComponent },
+  { path: '**', component: RoutingComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
