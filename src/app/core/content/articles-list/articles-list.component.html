@@ -15,7 +15,7 @@
               </p>
               <strong>Tags: </strong>
               <a mat-button color="accent" *ngFor="let tag of article.tags" [routerLink]="tag.link">{{ tag.name }}</a>
-              <button mat-raised-button color="primary" [routerLink]="">
+              <button mat-raised-button color="primary" [routerLink]="article.path">
                 Read More
               </button>
             </div>

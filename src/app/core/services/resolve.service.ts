@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Component, Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { API_PATH } from './api-links';
 import { Observable } from 'rxjs';
 
@@ -9,38 +9,50 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class ResolveService {
+  private options: {};
+  constructor(private http: HttpClient) {
+    this.options = {
+      headers: new HttpHeaders().set('Acephalous-Head', 'Acephalous'),
+    }
 
-  private API_URL = environment.apiUrl;
-
-  constructor(private http: HttpClient) { }
+  }
 
   getMainMenu(): Observable<any> {
-    return this.http.get<any>(this.API_URL + API_PATH.MAIN_MENU);
+    return this.http.get<any>(environment.apiUrl + API_PATH.MAIN_MENU);
   }
 
   getArticles(): Observable<any> {
-    return this.http.get<any>(this.API_URL + API_PATH.ARTICLES);
+    return this.http.get<any>(environment.apiUrl + API_PATH.ARTICLES);
+  }
+
+  getArticle(path: string): Observable<any> {
+    return this.http.get<any>(environment.apiUrl + path + '?_format=json');
   }
 
   getImage(id: string, type: string): Observable<any> {
     if (type === 'node--article') {
-      return this.http.get<any>(this.API_URL + API_PATH.ARTICLES + '/' + id + '/field_image');
+      return this.http.get<any>(environment.apiUrl + API_PATH.ARTICLES + '/' + id + '/field_image');
     }
   }
 
   getTags(id: string, type: string): Observable<any> {
     if (type === 'node--article') {
-      return this.http.get<any>(this.API_URL + API_PATH.ARTICLES + '/' + id + '/field_tags');
+      return this.http.get<any>(environment.apiUrl + API_PATH.ARTICLES + '/' + id + '/field_tags');
     }
   }
 
   getSiteInfo(): Observable<any> {
-    return this.http.get<any>(this.API_URL + API_PATH.SITE_INFO);
+    return this.http.get<any>(environment.apiUrl + API_PATH.SITE_INFO);
   }
 
   getUser(id: string, type: string): Observable<any> {
     if (type === 'node--article') {
-      return this.http.get<any>(this.API_URL + API_PATH.ARTICLES + '/' + id + '/uid');
+      return this.http.get<any>(environment.apiUrl + API_PATH.ARTICLES + '/' + id + '/uid');
     }
   }
+
+  getRouteDetailsFromDrupal(url): Observable<any> {
+    return this.http.get(environment.apiUrl + API_PATH.ROUTE_CHECK + '?path=/' + url);
+  }
+
 }

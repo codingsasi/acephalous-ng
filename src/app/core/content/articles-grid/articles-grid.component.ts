@@ -3,6 +3,7 @@ import { ResolveService } from '../../services/resolve.service';
 import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-articles-grid',
@@ -51,6 +52,7 @@ export class ArticlesGridComponent implements OnInit, OnDestroy {
 
   buildArticlesObject(articles) {
     articles = articles.data;
+    console.log(articles);
     const articlesArray: Array<any> = [];
     articles.forEach(article => {
       articlesArray.push({
@@ -62,6 +64,7 @@ export class ArticlesGridComponent implements OnInit, OnDestroy {
         image: '',
         tags: [],
         user: '',
+        path: (article.attributes.path.alias) ? article.attributes.path.alias : '/node/' +  article.attributes.drupal_internal__nid,
       });
     });
     console.log(articlesArray);
