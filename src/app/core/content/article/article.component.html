@@ -1,1 +1,18 @@
-<p>article works!</p>
+<div id="article">
+    <article>
+        <div class="card-body">
+        <div class="header">
+            <mat-card-title>{{ article.title }}</mat-card-title>
+            <mat-card-subtitle>By {{ article.user }}, on {{ article.created }}</mat-card-subtitle>
+        </div>
+        <div class="card-body-content">
+            <img class="card-image" src="{{ article.image.src }}" alt="{{ article.image.alt }}">
+            <div class="article-details">
+            <div [innerHTML]="article.body" class="article-body"></div>
+            <strong>Tags: </strong>
+            <a mat-button color="accent" *ngFor="let tag of article.tags" [routerLink]="tag.url">{{ tag.title }}</a>
+            </div>
+        </div>
+        </div>
+    </article>
+  </div>

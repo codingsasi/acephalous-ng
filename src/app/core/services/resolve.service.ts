@@ -26,7 +26,7 @@ export class ResolveService {
   }
 
   getArticle(path: string): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + path + '?_format=json');
+    return this.http.get<any>(environment.apiUrl + '/' + path + '?_format=json');
   }
 
   getImage(id: string, type: string): Observable<any> {

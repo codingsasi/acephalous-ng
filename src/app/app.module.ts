@@ -10,6 +10,7 @@ import { ArticlesGridComponent } from './core/content/articles-grid/articles-gri
 import { ArticlesListComponent } from './core/content/articles-list/articles-list.component';
 import {FrontPageComponent} from './core/content/front-page/front-page.component';
 import { RoutingComponent } from './routing/routing.component';
+import { ArticleComponent } from './core/content/article/article.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { RoutingComponent } from './routing/routing.component';
     AppComponent,
     ArticlesGridComponent,
     ArticlesListComponent,
+    ArticleComponent,
     FrontPageComponent,
     RoutingComponent
   ],

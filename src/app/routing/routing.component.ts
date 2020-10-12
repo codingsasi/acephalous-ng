@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {FrontPageComponent} from '../core/content/front-page/front-page.component';
 import {ArticlesGridComponent} from '../core/content/articles-grid/articles-grid.component';
-import {ArticlesListComponent} from '../core/content/articles-list/articles-list.component';
+import { ArticleComponent } from '../core/content/article/article.component';
 
 @Component({
   selector: 'app-routing',
@@ -34,7 +34,7 @@ export class RoutingComponent implements OnInit {
         if (response.entity.type === 'node') {
           switch (response.entity.bundle) {
             case 'article':
-              this.someComponent = ArticlesListComponent;
+              this.someComponent = ArticleComponent;
               break;
             case 'default':
               this.someComponent = ArticlesGridComponent;
