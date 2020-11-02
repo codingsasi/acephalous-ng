@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ResolveService } from '../../services/resolve.service';
+import {Component, OnInit} from '@angular/core';
+import {ResolveService} from '../../services/resolve.service';
 import {MediaChange, MediaObserver} from '@angular/flex-layout';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
@@ -44,13 +44,13 @@ export class ArticleComponent implements OnInit {
     this.resolveService.getArticle(this.url).subscribe(
       article => {
         this.article = this.buildArticleObject(article);
+        this.updateTagTitles();
       },
     )
   }
 
   private buildArticleObject(article: any) {
-    console.log(article);
-    const articleObject = {
+    return {
       id: article.nid[0].value,
       title: article.title[0].value,
       body: article.body[0].value,
@@ -63,19 +63,29 @@ export class ArticleComponent implements OnInit {
       tags: this.getTags(article.field_tags),
       url: article.path[0].alias,
       user: '',
-    }
-    return articleObject;
+    };
   }
 
-  private getTags(tags_array) {
-    let tags: Array<any> = [];
-    tags_array.forEach(tag => {
-      console.log(tag.url);
+  private getTags(tagsArray: any) {
+    const tags: Array<any> = [];
+    tagsArray.forEach(tag => {
       tags.push({
         title: 'Tag',
         url: tag.url,
       });
     });
     return tags;
+  }
+
+  private updateTagTitles() {
+    const tags = this.article.tags;
+    tags.forEach((tag, index) => {
+      this.resolveService.getTag(tag.url).subscribe(
+        _tag => {
+          console.log(_tag);
+          tags[index].title = _tag.name[0].value;
+        }
+      )
+    });
   }
 }

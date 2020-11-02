@@ -41,6 +41,10 @@ export class ResolveService {
     }
   }
 
+  getTag(url: string): Observable<any> {
+    return this.http.get<any>(environment.apiUrl + '/' + url + '?_format=json');
+  }
+
   getSiteInfo(): Observable<any> {
     return this.http.get<any>(environment.apiUrl + API_PATH.SITE_INFO);
   }
