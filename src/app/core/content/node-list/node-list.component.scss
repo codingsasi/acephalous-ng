@@ -1,6 +1,6 @@
 ul {
   article {
-    padding: 2rem;
+    padding: 2rem 2rem 0 2rem;
   }
   list-style: none;
   div {
@@ -17,7 +17,7 @@ ul {
         }
       }
       div {
-        &.article-details {
+        &.node-details {
           width: 65%;
           float: left;
           padding-left: 2rem;

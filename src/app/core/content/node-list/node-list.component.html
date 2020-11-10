@@ -1,0 +1,27 @@
+<div id="nodesList">
+  <ul>
+    <li *ngFor="let node of nodes">
+      <article>
+        <div class="card-body">
+          <div class="header">
+            <mat-card-title><h2>{{ node.title }}</h2></mat-card-title>
+            <mat-card-subtitle>By {{ node.user }}, on {{ node.created }}</mat-card-subtitle>
+          </div>
+          <div class="card-body-content">
+            <img class="card-image" src="{{ node.image }}" alt="{{ node.title }}">
+            <div class="node-details">
+              <p>
+                {{ node.summary }} ...
+              </p>
+              <strong>Tags: </strong>
+              <a mat-button color="accent" *ngFor="let tag of node.tags" [routerLink]="tag.url">{{ tag.title }}</a>
+              <button mat-raised-button color="primary" [routerLink]="node.path">
+                Read More
+              </button>
+            </div>
+          </div>
+        </div>
+      </article>
+    </li>
+  </ul>
+</div>

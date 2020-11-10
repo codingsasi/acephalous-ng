@@ -21,8 +21,8 @@ export class ResolveService {
     return this.http.get<any>(environment.apiUrl + API_PATH.MAIN_MENU);
   }
 
-  getArticles(): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + API_PATH.ARTICLES);
+  getNodes(): Observable<any> {
+    return this.http.get<any>(environment.apiUrl + API_PATH.NODES + '?_format=json');
   }
 
   getArticle(path: string): Observable<any> {
@@ -31,13 +31,13 @@ export class ResolveService {
 
   getImage(id: string, type: string): Observable<any> {
     if (type === 'node--article') {
-      return this.http.get<any>(environment.apiUrl + API_PATH.ARTICLES + '/' + id + '/field_image');
+      return this.http.get<any>(environment.apiUrl + API_PATH.NODES + '/' + id + '/field_image');
     }
   }
 
   getTags(id: string, type: string): Observable<any> {
     if (type === 'node--article') {
-      return this.http.get<any>(environment.apiUrl + API_PATH.ARTICLES + '/' + id + '/field_tags');
+      return this.http.get<any>(environment.apiUrl + API_PATH.NODES + '/' + id + '/field_tags');
     }
   }
 
@@ -51,7 +51,7 @@ export class ResolveService {
 
   getUser(id: string, type: string): Observable<any> {
     if (type === 'node--article') {
-      return this.http.get<any>(environment.apiUrl + API_PATH.ARTICLES + '/' + id + '/uid');
+      return this.http.get<any>(environment.apiUrl + API_PATH.NODES + '/' + id + '/uid');
     }
   }
 

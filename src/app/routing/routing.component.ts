@@ -3,8 +3,8 @@ import {ResolveService} from '../core/services/resolve.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {FrontPageComponent} from '../core/content/front-page/front-page.component';
-import {ArticlesGridComponent} from '../core/content/articles-grid/articles-grid.component';
 import { ArticleComponent } from '../core/content/article/article.component';
+import {NodeListComponent} from '../core/content/node-list/node-list.component';
 
 @Component({
   selector: 'app-routing',
@@ -37,7 +37,7 @@ export class RoutingComponent implements OnInit {
               this.someComponent = ArticleComponent;
               break;
             case 'default':
-              this.someComponent = ArticlesGridComponent;
+              this.someComponent = NodeListComponent;
           }
         }
       }
