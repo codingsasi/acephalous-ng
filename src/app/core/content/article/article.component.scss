@@ -1,0 +1,19 @@
+article {
+  .card-body {
+    .header {
+      mat-card-title {
+        h2 {
+          margin-top: 10px;
+          margin-bottom: 0;
+        }
+      }
+    }
+    .card-body-content {
+      img {
+        &.card-image {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

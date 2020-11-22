@@ -34,8 +34,7 @@ export class PrimaryMenuComponent implements OnInit {
     return menuItems;
   }
 
-  // @TODO
-  // Need to refine the implementation and position of site info.
+  // @todo Need to refine the implementation and position of site info.
   addSiteInfo() {
     this.resolveService.getSiteInfo().subscribe(
       site => {

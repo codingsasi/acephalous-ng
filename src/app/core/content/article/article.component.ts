@@ -17,9 +17,10 @@ export class ArticleComponent implements OnInit {
   watcher: Subscription;
 
   constructor(private resolveService: ResolveService, private mediaObserver: MediaObserver, private route: ActivatedRoute) {
+    this.article = '';
     this.route.url.subscribe(url => {
       this.url = url.toString().replace(/,/g, '/');
-    });
+    }).unsubscribe();
     this.watcher = mediaObserver.media$.subscribe((change: MediaChange) => {
       if ( change.mqAlias === 'xs') {
         this.cols = 1;
@@ -43,49 +44,37 @@ export class ArticleComponent implements OnInit {
   ngOnInit() {
     this.resolveService.getArticle(this.url).subscribe(
       article => {
-        this.article = this.buildArticleObject(article);
-        this.updateTagTitles();
-      },
-    )
-  }
-
-  private buildArticleObject(article: any) {
-    return {
-      id: article.nid[0].value,
-      title: article.title[0].value,
-      body: article.body[0].value,
-      type: article.type[0].value,
-      created: article.created[0].value,
-      image: {
-        src: article.field_image[0].url,
-        alt: article.field_image[0].alt,
-      },
-      tags: this.getTags(article.field_tags),
-      url: article.path[0].alias,
-      user: '',
-    };
-  }
-
-  private getTags(tagsArray: any) {
-    const tags: Array<any> = [];
-    tagsArray.forEach(tag => {
-      tags.push({
-        title: 'Tag',
-        url: tag.url,
-      });
-    });
-    return tags;
-  }
-
-  private updateTagTitles() {
-    const tags = this.article.tags;
-    tags.forEach((tag, index) => {
-      this.resolveService.getTag(tag.url).subscribe(
-        _tag => {
-          console.log(_tag);
-          tags[index].title = _tag.name[0].value;
-        }
-      )
-    });
+        const node = {
+          id: article.nid[0].value,
+          title: article.title[0].value,
+          body: article.body[0].value,
+          type: article.type[0].value,
+          created: new Date(article.created[0].value).toDateString(),
+          image: {
+            src: article.field_image[0].url,
+            alt: article.field_image[0].alt,
+          },
+          tags: article.field_tags,
+          url: article.path[0].alias,
+          user: article.uid[0].url,
+        };
+        node.tags.forEach((_tag, index) => {
+          this.resolveService.getTag(_tag.url).subscribe(tag => {
+            node.tags[index] = {
+              title: tag.name[0].value,
+              url: tag.path[0].alias,
+            };
+          });
+        });
+        this.resolveService.getUser(node.user).subscribe(user => {
+          node.user = {
+            name: user.name[0].value,
+            path: (user.path[0].alias === null) ? '/user/' + user.uid[0].value
+              : user.path[0].alias,
+          }
+        });
+        this.article = node;
+      }
+    );
   }
 }

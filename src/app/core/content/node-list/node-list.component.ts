@@ -3,6 +3,7 @@ import { ResolveService } from '../../services/resolve.service';
 import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import {mergeMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-node-list',
@@ -15,6 +16,7 @@ export class NodeListComponent implements OnInit, OnDestroy {
   watcher: Subscription;
 
   constructor(private resolveService: ResolveService, private mediaObserver: MediaObserver) {
+    this.nodes = [];
     this.watcher = mediaObserver.media$.subscribe((change: MediaChange) => {
       if ( change.mqAlias === 'xs') {
         this.rowHeight = '350px';
@@ -33,62 +35,52 @@ export class NodeListComponent implements OnInit, OnDestroy {
   private baseUrl = environment.apiUrl;
 
   ngOnInit() {
-    this.resolveService.getNodes().subscribe(
-      nodes => {
-        this.nodes = this.buildnodesObject(nodes);
-      },
-    )
-  }
-
-  buildnodesObject(nodes) {
-    const nodesArray: Array<any> = [];
-    nodes.forEach(node => {
-      nodesArray.push({
-        id: node.nid[0].value,
-        type: node.type[0].target_id,
-        title: node.title[0].value,
-        summary: (node.body[0].summary.length === 0) ?
+    this.resolveService.getNodes()
+      .pipe(mergeMap(nodes => {
+        return nodes.map(node => ({
+          id: node.nid[0].value,
+          uuid: node.uuid[0].value,
+          type: node.type[0].target_id,
+          title: node.title[0].value,
+          summary: (node.body[0].summary.length === 0) ?
           node.body[0].value.substr(0, 500).replace(/<\/?[^>]+(>|$)/g, '')
           : node.body[0].summary,
-        created: node.created[0].value,
-        image: node.field_image[0].url,
-        tags: this.getTags(node.field_tags),
-        user: '',
-        path: (node.path[0].alias.length === 0) ? 'node/' + node.nid[0].value
+          created: new Date(node.created[0].value).toDateString(),
+          image: {
+            src: node.field_image[0].url,
+            alt: node.field_image[0].alt,
+          },
+          tags: node.field_tags,
+          user: node.uid[0].url,
+          path: (node.path[0].alias === null) ? '/node/' + node.nid[0].value
           : node.path[0].alias,
-      });
-    });
-    return nodesArray;
-  }
-
-  buildUserUrl() {
-    const nodes = this.nodes;
-    nodes.forEach((node, i) => {
-      this.resolveService.getUser(node.id, node.type).subscribe(
-        user => {
-          this.nodes[i].user = user.data.attributes.name;
-        }
-      )
-    });
-  }
-
-  private getTags(tagsArray: any) {
-    const tags: Array<any> = [];
-    tagsArray.forEach(tag => {
-      this.resolveService.getTag(tag.url).subscribe(
-        _tag => {
-          tags.push({
-            title: _tag.name[0].value,
-            url: _tag.path[0].alias,
+        }));
+      }))
+      .subscribe(node => {
+        // @ts-ignore
+        node.tags.forEach((_tag, index) => {
+          this.resolveService.getTag(_tag.url).subscribe(tag => {
+            // @ts-ignore
+            node.tags[index] = {
+              title: tag.name[0].value,
+              url: tag.path[0].alias,
+            };
           });
-        }
-      )
-    });
-    return tags;
+        });
+        // @ts-ignore
+        this.resolveService.getUser(node.user).subscribe(user => {
+          // @ts-ignore
+          node.user = {
+            name: user.name[0].value,
+            path: (user.path[0].alias === null) ? '/user/' + user.uid[0].value
+              : user.path[0].alias,
+          }
+        });
+        this.nodes.push(node);
+      });
   }
 
   ngOnDestroy() {
     this.watcher.unsubscribe();
   }
-
 }

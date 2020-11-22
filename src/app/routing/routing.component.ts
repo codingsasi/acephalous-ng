@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs';
 import {FrontPageComponent} from '../core/content/front-page/front-page.component';
 import { ArticleComponent } from '../core/content/article/article.component';
 import {NodeListComponent} from '../core/content/node-list/node-list.component';
+import {UserComponent} from "../core/user/user/user.component";
 
 @Component({
   selector: 'app-routing',
@@ -29,18 +30,31 @@ export class RoutingComponent implements OnInit {
 
 
   private getComponent(url: string) {
-    this.resolveService.getRouteDetailsFromDrupal(url).subscribe(response => {
-      if (response.entity !== undefined) {
-        if (response.entity.type === 'node') {
-          switch (response.entity.bundle) {
-            case 'article':
-              this.someComponent = ArticleComponent;
-              break;
-            case 'default':
-              this.someComponent = NodeListComponent;
-          }
+    this.resolveService.getRouteDetailsFromDrupal(url).toPromise().then(response => {
+      if (response.entity === undefined) {
+        this.someComponent = NodeListComponent;
+      }
+      else {
+        switch (response.entity.type) {
+          case 'node':
+            switch (response.entity.bundle) {
+              case 'article':
+                this.someComponent = ArticleComponent;
+                break;
+              case 'default':
+                this.someComponent = NodeListComponent;
+            }
+            break;
+          case 'user':
+            this.someComponent = UserComponent;
+            break;
+          case 'default':
+            this.someComponent = NodeListComponent;
+            break;
         }
       }
+    }).catch(_e => {
+      this.someComponent = NodeListComponent;
     });
   }
 }

@@ -5,16 +5,20 @@
         <div class="card-body">
           <div class="header">
             <mat-card-title><h2>{{ node.title }}</h2></mat-card-title>
-            <mat-card-subtitle>By {{ node.user }}, on {{ node.created }}</mat-card-subtitle>
+            <mat-card-subtitle>By <a [routerLink]="node.user.path">{{ node.user.name }}</a>, on {{ node.created }}</mat-card-subtitle>
           </div>
           <div class="card-body-content">
-            <img class="card-image" src="{{ node.image }}" alt="{{ node.title }}">
             <div class="node-details">
+              <img class="card-image" src="{{ node.image.src }}" alt="{{ node.image.alt }}">
               <p>
                 {{ node.summary }} ...
               </p>
+            </div>
+            <div class="node-tags">
               <strong>Tags: </strong>
               <a mat-button color="accent" *ngFor="let tag of node.tags" [routerLink]="tag.url">{{ tag.title }}</a>
+            </div>
+            <div class="node-read-more">
               <button mat-raised-button color="primary" [routerLink]="node.path">
                 Read More
               </button>

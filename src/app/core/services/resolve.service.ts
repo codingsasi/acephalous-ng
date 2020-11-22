@@ -37,7 +37,7 @@ export class ResolveService {
 
   getTags(id: string, type: string): Observable<any> {
     if (type === 'node--article') {
-      return this.http.get<any>(environment.apiUrl + API_PATH.NODES + '/' + id + '/field_tags');
+      return this.http.get<any>(environment.apiUrl + '/api/node/article/' + id + '/field_tags');
     }
   }
 
@@ -49,14 +49,12 @@ export class ResolveService {
     return this.http.get<any>(environment.apiUrl + API_PATH.SITE_INFO);
   }
 
-  getUser(id: string, type: string): Observable<any> {
-    if (type === 'node--article') {
-      return this.http.get<any>(environment.apiUrl + API_PATH.NODES + '/' + id + '/uid');
-    }
+  getRouteDetailsFromDrupal(url: string): Observable<any> {
+    return this.http.get(environment.apiUrl + API_PATH.ROUTE_CHECK + '?path=/' + url);
   }
 
-  getRouteDetailsFromDrupal(url): Observable<any> {
-    return this.http.get(environment.apiUrl + API_PATH.ROUTE_CHECK + '?path=/' + url);
+  getUser(url: string): Observable<any> {
+    return this.http.get(environment.apiUrl + '/' + url + '?_format=json');
   }
 
 }
