@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared.module';
-import {ArticleComponent} from "./article/article.component";
-import {NodeListComponent} from "./node-list/node-list.component";
+import {ArticleComponent} from './article/article.component';
+import {NodeListComponent} from './node-list/node-list.component';
 
 // TODO Manage declarations appearing in  multiple places.
 @NgModule({
