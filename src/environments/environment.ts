@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://local.acephalous.com'
+  apiUrl: 'http://drupal.lndo.site/'
 };
 
 /*
