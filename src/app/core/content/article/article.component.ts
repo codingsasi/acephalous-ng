@@ -47,7 +47,7 @@ export class ArticleComponent implements OnInit {
         const node = {
           id: article.nid[0].value,
           title: article.title[0].value,
-          body: article.body[0].value,
+          body: article.body[0].processed,
           type: article.type[0].value,
           created: new Date(article.created[0].value).toDateString(),
           image: {
@@ -58,6 +58,13 @@ export class ArticleComponent implements OnInit {
           url: article.path[0].alias,
           user: article.uid[0].url,
         };
+        this.resolveService.getUser(node.user).subscribe(user => {
+          node.user = {
+            name: user.name[0].value,
+            path: (user.path[0].alias === null) ? '/user/' + user.uid[0].value
+              : user.path[0].alias,
+          };
+        });
         node.tags.forEach((_tag, index) => {
           this.resolveService.getTag(_tag.url).subscribe(tag => {
             node.tags[index] = {
@@ -65,13 +72,6 @@ export class ArticleComponent implements OnInit {
               url: tag.path[0].alias,
             };
           });
-        });
-        this.resolveService.getUser(node.user).subscribe(user => {
-          node.user = {
-            name: user.name[0].value,
-            path: (user.path[0].alias === null) ? '/user/' + user.uid[0].value
-              : user.path[0].alias,
-          }
         });
         this.article = node;
       }

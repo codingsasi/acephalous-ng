@@ -13,7 +13,7 @@ export class ResolveService {
   constructor(private http: HttpClient) {
     this.options = {
       headers: new HttpHeaders().set('Acephalous-Head', 'Acephalous'),
-    }
+    };
 
   }
 

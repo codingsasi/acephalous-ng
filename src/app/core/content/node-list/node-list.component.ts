@@ -43,12 +43,12 @@ export class NodeListComponent implements OnInit, OnDestroy {
           type: node.type[0].target_id,
           title: node.title[0].value,
           summary: (node.body[0].summary.length === 0) ?
-          node.body[0].value.substr(0, 500).replace(/<\/?[^>]+(>|$)/g, '')
+          node.body[0].processed.substr(0, 500).replace(/<\/?[^>]+(>|$)/g, '')
           : node.body[0].summary,
           created: new Date(node.created[0].value).toDateString(),
           image: {
-            src: node.field_image[0].url,
-            alt: node.field_image[0].alt,
+            src: node.field_image[0] ? node.field_image[0].url : '',
+            alt: node.field_image[0] ? node.field_image[0].alt : '',
           },
           tags: node.field_tags,
           user: node.uid[0].url,
