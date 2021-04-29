@@ -8,7 +8,7 @@ pipeline {
             steps {
                 echo 'Building...'
                 sh 'npm install --ansi'
-                writeFile file: 'src/environments/environment.prod.ts', text: "export const environment = { production: true, apiUrl: 'https://abh.ai/' };"
+                writeFile file: 'src/environments/environment.prod.ts', text: "export const environment = { production: true, apiUrl: 'https://abh.ai' };"
                 sh 'npm run build -- --prod'
             }
         }
