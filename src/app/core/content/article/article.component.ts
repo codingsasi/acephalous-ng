@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ResolveService} from '../../services/resolve.service';
 import {MediaChange, MediaObserver} from '@angular/flex-layout';
 import {Subscription} from 'rxjs';
@@ -9,7 +9,7 @@ import {ActivatedRoute} from '@angular/router';
   templateUrl: './article.component.html',
   styleUrls: ['./article.component.scss']
 })
-export class ArticleComponent implements OnInit {
+export class ArticleComponent implements OnInit, OnDestroy {
   public article: any;
   public cols = 4; // To set columns for responsive displays
   public rowHeight = '600px'; // To set rowHeight for responsive displays
@@ -22,7 +22,7 @@ export class ArticleComponent implements OnInit {
       this.url = url.toString().replace(/,/g, '/');
     }).unsubscribe();
     this.watcher = mediaObserver.media$.subscribe((change: MediaChange) => {
-      if ( change.mqAlias === 'xs') {
+      if (change.mqAlias === 'xs') {
         this.cols = 1;
         this.rowHeight = '620px';
       }
@@ -54,27 +54,31 @@ export class ArticleComponent implements OnInit {
             src: article.field_image[0].url,
             alt: article.field_image[0].alt,
           },
-          tags: article.field_tags,
+          tags: this.getTags(article.field_tags),
           url: article.path[0].alias,
-          user: article.uid[0].url,
+          user: {
+            name: article.uid[0].name[0].value,
+            path: (article.uid[0].path[0].alias === null) ? '/user/' + article.uid[0].uid[0].value
+              : article.uid[0].path[0].alias,
+          },
         };
-        this.resolveService.getUser(node.user).subscribe(user => {
-          node.user = {
-            name: user.name[0].value,
-            path: (user.path[0].alias === null) ? '/user/' + user.uid[0].value
-              : user.path[0].alias,
-          };
-        });
-        node.tags.forEach((_tag, index) => {
-          this.resolveService.getTag(_tag.url).subscribe(tag => {
-            node.tags[index] = {
-              title: tag.name[0].value,
-              url: tag.path[0].alias,
-            };
-          });
-        });
         this.article = node;
       }
     );
+  }
+
+  getTags(fieldTags) {
+    const tags = [];
+    fieldTags.forEach((tag) => {
+      tags.push({
+        title: tag.name[0].value,
+        url: tag.path[0].alias,
+      });
+    });
+    return tags;
+  }
+
+  ngOnDestroy() {
+    this.watcher.unsubscribe();
   }
 }

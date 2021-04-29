@@ -42,7 +42,7 @@ export class ResolveService {
   }
 
   getTag(url: string): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + '/' + url + '?_format=json');
+    return this.http.get<any>(environment.apiUrl + url + '?_format=json');
   }
 
   getSiteInfo(): Observable<any> {
