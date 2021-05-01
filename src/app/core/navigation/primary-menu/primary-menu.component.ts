@@ -15,7 +15,11 @@ export class PrimaryMenuComponent implements OnInit {
   ngOnInit() {
     this.resolveService.getMainMenu().subscribe(
       menu => {
+        console.log('Linkset from decoupled_menus:');
+        console.log(menu);
         this.menuArray = this.buildMenu(menu.linkset[0].item);
+        console.log('Constructed menu array:');
+        console.log(this.menuArray);
       }
     );
   }
@@ -25,7 +29,7 @@ export class PrimaryMenuComponent implements OnInit {
     menu.forEach(item => {
       menuItems.push({
         title: item.title,
-        link: item.href,
+        href: item.href,
         below: (item['drupal-submenu-linkset']) ? this.buildMenu(item['drupal-submenu-linkset'].item) : false
       });
     });
