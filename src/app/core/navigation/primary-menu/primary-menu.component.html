@@ -22,7 +22,7 @@
         </ng-container>
         <!-- Leaf sub menu items here -->
         <ng-container *ngIf="!item.below">
-          <button mat-button color="primary" [routerLink]="item.link">
+          <button mat-button color="primary" [routerLink]="item.href">
             {{item.title}}
           </button>
         </ng-container>
@@ -41,7 +41,7 @@
           </ng-container>
           <!-- Leaf sub menu items here -->
           <ng-container *ngIf="!item.below">
-            <button mat-button color="primary" [routerLink]="item.link">
+            <button mat-button color="primary" [routerLink]="item.href">
               {{item.title}}
             </button>
           </ng-container>

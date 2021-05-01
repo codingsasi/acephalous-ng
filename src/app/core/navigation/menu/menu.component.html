@@ -9,11 +9,10 @@
     </ng-container>
     <!-- Handle sub menu items -->
     <ng-container *ngIf="!item.below">
-      <button mat-menu-item [routerLink]="item.link">
+      <button mat-menu-item [routerLink]="item.href">
         {{item.title}}
       </button>
     </ng-container>
   </ng-container>
 </mat-menu>
 
-  
